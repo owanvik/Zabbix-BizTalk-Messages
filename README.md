@@ -2,8 +2,8 @@
 Template for monitoring BizTalk Messages with scripts
 
 Installation:
-1. Create 'C:\ESB\Tools' on the BizTalk Management server (or any server that can talk to the BizTalk environment)
-(This folder can be changed, but remember to update both the scripts output and the 'vfs.file.contents' items in the template)
+1. Create ```C:\ESB\Tools``` on the BizTalk Management server (or any server that can talk to the BizTalk environment)
+(This folder can be changed, but remember to update both the scripts output and the ```vfs.file.contents``` items in the template)
 
 Scheduled tasks:
 
