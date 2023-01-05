@@ -13,3 +13,25 @@ All the tasks must be run with a user that have read access to the BizTalk envir
 
 5. Import the Zabbix Template to Zabbix
 6. Add the template to the host running the scripts
+  
+  
+Some of the macros are "User macro with context" which you can read about here:
+https://www.zabbix.com/documentation/current/en/manual/config/macros/user_macros_context
+
+Example: {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} This will override the default {$ACTIVE.INST.COUNT.CRIT} macro for "MyBT.ServiceType". 
+To use this you create a new macro like {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} and replace "ServiceType" with the ServiceType of the application you want to override.
+You can find the service type in the name of the item in Zabbix, or by running this script in powershell:
+```
+  $mgmtDbServer = get-wmiobject MSBTS_GroupSetting -namespace root\MicrosoftBizTalkServer | select-object -expand MgmtDbServerName
+[void] [System.reflection.Assembly]::LoadWithPartialName("Microsoft.BizTalk.Operations")
+$mgmtDbName = get-wmiobject MSBTS_GroupSetting -namespace root\MicrosoftBizTalkServer | select-object -expand MgmtDbName
+$getBodyOperation = New-Object Microsoft.BizTalk.Operations.BizTalkOperations($mgmtDbServer, $mgmtDbName)
+$ServiceTypes = $getBodyOperation.GetMessages() | Where-Object ServiceType -gt "" | Select-Object ServiceType
+
+$output = ForEach ($ServiceType in $ServiceTypes.ServiceType) {
+$Properties = [ordered]@{'Name' = $ServiceType.Split(",")[0]}
+New-Object -TypeName PSObject -Property $Properties
+}
+$output
+  ```
+  
