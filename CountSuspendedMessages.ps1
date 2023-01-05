@@ -5,7 +5,7 @@ $mgmtDbName = get-wmiobject MSBTS_GroupSetting -namespace root\MicrosoftBizTalkS
 $getBodyOperation = New-Object Microsoft.BizTalk.Operations.BizTalkOperations($mgmtDbServer, $mgmtDbName)
 
 $messages = $getBodyOperation.GetMessages() | Where-Object ServiceType -gt ""
-$ServiceTypes = $messages | Select-Object ServiceType | Sort-Object ServiceType | Get-Unique -AsString # | ForEach-Object {if ($_.ServiceType -like "*,*") { $_.ServiceType.Substring(0,$_.ServiceType.IndexOf(","))}}
+$ServiceTypes = $messages | Select-Object ServiceType | Sort-Object ServiceType | Get-Unique -AsString
 
 
 
