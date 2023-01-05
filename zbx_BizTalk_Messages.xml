@@ -1,0 +1,1136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2023-01-05T09:59:12Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+        <template_group>
+            <uuid>97178e695e264821a9559e0816d6d808</uuid>
+            <name>Templates/Biztalk</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>1d884288e3ee41d9b799d257132ee312</uuid>
+            <template>Template App BizTalk Messages EXP</template>
+            <name>Template App BizTalk Messages EXP</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+                <group>
+                    <name>Templates/Biztalk</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>ab293f3ac120414b895797325b5b6478</uuid>
+                    <name>Long Running Active Messages</name>
+                    <key>vfs.file.contents[C:\ESB\Tools\ActiveMessageCount.json]</key>
+                    <delay>5m</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$..*</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>3de2e76b45c24c65b1da9f2a97bb0d2d</uuid>
+                    <name>Instance Statuses</name>
+                    <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                    <delay>30s</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$..*</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>bc13ce0753604207b5c511639686c397</uuid>
+                    <name>Suspended Messages</name>
+                    <key>vfs.file.contents[C:\ESB\Tools\SuspendedMessages.json]</key>
+                    <delay>5m</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$..*</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>cd5ba7d09ac946e1b8bee7dcbf934999</uuid>
+                    <name>Instance Statuses Last Modified</name>
+                    <key>vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify]</key>
+                    <trends>0</trends>
+                    <units>unixtime</units>
+                    <triggers>
+                        <trigger>
+                            <uuid>3efb0b52c42d41f2b04abd42a3b52312</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.CRIT}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.CRIT}s since Instance Statues was modified</name>
+                            <priority>DISASTER</priority>
+                            <description>The SuspendedMessages-file is located at PMSW-PFSESB0M01 - C:\ESB\Tools
+
+Check Task Scheduler for last run time of &quot;Get Instance Statuses&quot;</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>7e3eef664ecb49dd9a8c3dee0e7cc40c</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.HIGH}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.HIGH}s since Instance Statues was modified</name>
+                            <priority>HIGH</priority>
+                            <description>The SuspendedMessages-file is located at PMSW-PFSESB0M01 - C:\ESB\Tools
+
+Check Task Scheduler for last run time of &quot;Get Instance Statuses&quot;</description>
+                            <dependencies>
+                                <dependency>
+                                    <name>Over {$FILE.LAST.MODIFIED.CRIT}s since Instance Statues was modified</name>
+                                    <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.CRIT}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>5a71d56837be4157881662affa0f2dcf</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.WARN}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.WARN} since Instance Stauses was modified</name>
+                            <priority>WARNING</priority>
+                            <description>now()-last(/Template App BizTalk Messages/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.HIGH}</description>
+                            <dependencies>
+                                <dependency>
+                                    <name>Over {$FILE.LAST.MODIFIED.HIGH}s since Instance Statues was modified</name>
+                                    <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\InstanceCountPerService.json,modify])&gt;{$FILE.LAST.MODIFIED.HIGH}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>3490949a21774df89b6e99c2b9c8bb00</uuid>
+                    <name>Suspended Messages Last Modified</name>
+                    <key>vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify]</key>
+                    <trends>0</trends>
+                    <units>unixtime</units>
+                    <triggers>
+                        <trigger>
+                            <uuid>068707c8e2764d2eb59aab904902cf78</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify])&gt;{$FILE.LAST.MODIFIED.CRIT}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.CRIT}s since Suspended Messages was modified</name>
+                            <priority>DISASTER</priority>
+                            <description>The SuspendedMessages-file is located at PMSW-PFSESB0M01 - C:\ESB\Tools
+
+Check Task Scheduler for last run time of &quot;Get Suspended Messages&quot;</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>bebfd3e70a9449bc9fb07a38a3a98559</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify])&gt;{$FILE.LAST.MODIFIED.HIGH}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.HIGH}s since Suspended Messages was modified</name>
+                            <priority>HIGH</priority>
+                            <description>The SuspendedMessages-file is located at PMSW-PFSESB0M01 - C:\ESB\Tools
+
+Check Task Scheduler for last run time of &quot;Get Suspended Messages&quot;</description>
+                            <dependencies>
+                                <dependency>
+                                    <name>Over {$FILE.LAST.MODIFIED.CRIT}s since Suspended Messages was modified</name>
+                                    <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify])&gt;{$FILE.LAST.MODIFIED.CRIT}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                        <trigger>
+                            <uuid>f95b79dbef114a57847983140094e52b</uuid>
+                            <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify])&gt;{$FILE.LAST.MODIFIED.WARN}</expression>
+                            <name>Over {$FILE.LAST.MODIFIED.WARN}s since Suspended Messages was modified</name>
+                            <priority>WARNING</priority>
+                            <description>The SuspendedMessages-file is located at PMSW-PFSESB0M01 - C:\ESB\Tools
+
+Check Task Scheduler for last run time of &quot;Get Suspended Messages&quot;</description>
+                            <dependencies>
+                                <dependency>
+                                    <name>Over {$FILE.LAST.MODIFIED.HIGH}s since Suspended Messages was modified</name>
+                                    <expression>now()-last(/Template App BizTalk Messages EXP/vfs.file.time[C:\ESB\Tools\SuspendedMessages.json,modify])&gt;{$FILE.LAST.MODIFIED.HIGH}</expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>ad3b4522b42545dcbb3ea154e7a612e0</uuid>
+                    <name>Instance Status</name>
+                    <type>DEPENDENT</type>
+                    <key>discovery.files.InstanceStatuses</key>
+                    <delay>0</delay>
+                    <lifetime>365d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>e6acb4696c124c3c9f094c591dce3a76</uuid>
+                            <name>{#NAME} - Active Instance Messages</name>
+                            <type>DEPENDENT</type>
+                            <key>active.instance.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].Active</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Active Instances</tag>
+                                    <value>{#NAME}</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>ffccc45987874ee787effa86d81fd465</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7116b4bcf0bf445281627ccfa49b8cba</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>fd5d430723fb4dc987cfb6f141e46bd6</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.INFO:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$ACTIVE.INST.COUNT.INFO:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>ffa2190adc8b45fba8395f2e86006157</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$ACTIVE.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance active on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&gt;{$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}])&lt;{$ACTIVE.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/active.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>4edf01364b3c4f018c0b132b59cf8109</uuid>
+                            <name>{#NAME} - Dehydrated Instance Messages</name>
+                            <type>DEPENDENT</type>
+                            <key>dehydrated.instance.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].Dehydrated</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>eb4ac55c95044d0898faa65e7ec7c082</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>1f1a9e12b29542c98bf12e8f9161dd34</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>33e2d463de1e4c30a7d57cb015c6cf50</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.INFO:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$DEHYDRATED.INST.COUNT.INFO:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>1c0c5412d686423e9b720a93dc7af525</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$DEHYDRATED.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance dehydrated on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&gt;{$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}])&lt;{$DEHYDRATED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/dehydrated.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>b728edf821d34701b6808d45018ad4fe</uuid>
+                            <name>{#NAME} - Running Instance Messages</name>
+                            <type>DEPENDENT</type>
+                            <key>running.instance.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].Running</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>19727ffe15e146358960db276ff34d94</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>9fdd3cebe35940228f33218624f546af</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>743b0adde2b7409c857b00356d6c65d1</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.INFO:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$RUNNING.INST.COUNT.INFO:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>f3ca1ecaa84c4017a2a659a3232e073d</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$RUNNING.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                    <status>DISABLED</status>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance running on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&gt;{$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}])&lt;{$RUNNING.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/running.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>dcf893f881dc4211be80cc52e8055f89</uuid>
+                            <name>{#NAME} - Suspended Instance Messages</name>
+                            <type>DEPENDENT</type>
+                            <key>suspended.instance.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].Suspended</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>&quot;</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>&quot;</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>c1a9d2a8a5204d81bd6fc38f29a64e1c</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>45ede070223e4eb386732777462455f1</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>222f644e1a664ab0b01b6bed7704407d</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.INFO:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.INST.COUNT.INFO:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>70f46e7d42ef45c784084176c6cb3033</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance suspended on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&gt;{$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}])&lt;{$SUSPENDED.INST.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>a475dbf38b7b4ababe103b9913a8b253</uuid>
+                            <name>{#NAME} - SuspendedNotResumable Instance Messages</name>
+                            <type>DEPENDENT</type>
+                            <key>suspendednotresumable.instance.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].SuspendedNotResumable</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>247460b8f6e34761ad5da275c085630c</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>e8c0e57fed37437bbd867f200bba6bc7</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.CRIT:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>be5f4e2e49b748c6bb2007b823a3de45</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.INFO:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDEDNR.INST.COUNT.INFO:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7ac470c892064329932c495598db195f</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                    <name>Over {$SUSPENDEDNR.INST.COUNT.WARN:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;} messages with instance suspended not resumable on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&gt;{$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}])&lt;{$SUSPENDEDNR.INST.COUNT.HIGH:&quot;{#NAME}&quot;} and nodata(/Template App BizTalk Messages EXP/suspendednotresumable.instance.messages.[{#NAME}],15m)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>BizTalk</tag>
+                                            <value>Instance Status</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>85cddce096e14062ac2ebbe09339a31b</uuid>
+                            <name>Active Instances</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>F63100</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template App BizTalk Messages EXP</host>
+                                        <key>active.instance.messages.[{#NAME}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <uuid>6f2b4886503442439d94aafe33847fa8</uuid>
+                            <name>Running Instance Messages</name>
+                            <graph_items>
+                                <graph_item>
+                                    <drawtype>FILLED_REGION</drawtype>
+                                    <color>199C0D</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template App BizTalk Messages EXP</host>
+                                        <key>running.instance.messages.[{#NAME}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <uuid>d15b274c4ff8488ab8dfe7fd38243164</uuid>
+                            <name>Running Instances</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>199C0D</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template App BizTalk Messages EXP</host>
+                                        <key>running.instance.messages.[{#NAME}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <master_item>
+                        <key>vfs.file.contents[C:\ESB\Tools\InstanceCountPerService.json]</key>
+                    </master_item>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.ServiceType</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>c40052f3fe594001ad8f8e8fcdb4f998</uuid>
+                    <name>Long Running Active Messages</name>
+                    <type>DEPENDENT</type>
+                    <key>discovery.files.LongRunningActiveMessages</key>
+                    <delay>0</delay>
+                    <lifetime>365d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>d7ee9bfd2d474621870594a3126d004d</uuid>
+                            <name>Long Running Active Messages - {#NAME}</name>
+                            <type>DEPENDENT</type>
+                            <key>longrunning.active.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.ServiceType == &quot;{#NAME}&quot;)].Active</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\ActiveMessageCount.json]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>d54585cecd374088be413064d36f4764</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/longrunning.active.messages.[{#NAME}])&gt;{$LONGRUN.INST.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/longrunning.active.messages.[{#NAME}])=0 or nodata(/Template App BizTalk Messages EXP/longrunning.active.messages.[{#NAME}],900)=1</recovery_expression>
+                                    <name>Active messages on {#NAME} has been running for over 1 hour</name>
+                                    <opdata>{ITEM.LASTVALUE1}</opdata>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <master_item>
+                        <key>vfs.file.contents[C:\ESB\Tools\ActiveMessageCount.json]</key>
+                    </master_item>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.ServiceType</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>18a3f9b1fd8b440d9e3fb5c4edec6d49</uuid>
+                    <name>Suspended Message</name>
+                    <type>DEPENDENT</type>
+                    <key>discovery.files.SuspendedMessages</key>
+                    <delay>0</delay>
+                    <lifetime>365d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>f91ca3e59ee143048266677d8a435e68</uuid>
+                            <name>{#NAME} - Suspended messages</name>
+                            <type>DEPENDENT</type>
+                            <key>suspended.messages.[{#NAME}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$..[?(@.Name == &quot;{#NAME}&quot;)].SuspendedMsgs</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>LTRIM</type>
+                                    <parameters>
+                                        <parameter>[</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>RTRIM</type>
+                                    <parameters>
+                                        <parameter>]</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>vfs.file.contents[C:\ESB\Tools\SuspendedMessages.json]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>BizTalk</tag>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>951dbfbe897f41e8b72f70ca91f32b40</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>Suspended messages</tag>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>30d25f672842407f867c962be7e72daf</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.CRIT:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>Suspended messages</tag>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>46858a92e6874e53b88ca8423c2f5808</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.INFO:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.INFO:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.COUNT.INFO:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                    <priority>INFO</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>Suspended messages</tag>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>04b496c5eb074f59b951f5f639fb1e4c</uuid>
+                                    <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                    <name>Over {$SUSPENDED.COUNT.WARN:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Over {$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;} suspended messages on {#NAME}</name>
+                                            <expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&gt;{$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;}</expression>
+                                            <recovery_expression>last(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}])&lt;{$SUSPENDED.COUNT.HIGH:&quot;{#NAME}&quot;} or nodata(/Template App BizTalk Messages EXP/suspended.messages.[{#NAME}],1h)=1</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>Suspended messages</tag>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>87fce03b756c422cb78c09ba6610159d</uuid>
+                            <name>{#NAME} - Suspended Messages</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>199C0D</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template App BizTalk Messages EXP</host>
+                                        <key>suspended.messages.[{#NAME}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <master_item>
+                        <key>vfs.file.contents[C:\ESB\Tools\SuspendedMessages.json]</key>
+                    </master_item>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.Name</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.CRIT}</macro>
+                    <value>4000</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.HIGH}</macro>
+                    <value>3000</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.HIGH:&quot;&lt;instance&gt;r&quot;}</macro>
+                    <value>500</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.INFO}</macro>
+                    <value>1000</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.INFO:&quot;&lt;instance&gt;&quot;}</macro>
+                    <value>300</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.WARN}</macro>
+                    <value>2000</value>
+                </macro>
+                <macro>
+                    <macro>{$ACTIVE.INST.COUNT.WARN:&quot;&lt;instance&gt;&quot;}</macro>
+                    <value>400</value>
+                </macro>
+                <macro>
+                    <macro>{$DEHYDRATED.INST.COUNT.CRIT}</macro>
+                    <value>500</value>
+                </macro>
+                <macro>
+                    <macro>{$DEHYDRATED.INST.COUNT.HIGH}</macro>
+                    <value>250</value>
+                </macro>
+                <macro>
+                    <macro>{$DEHYDRATED.INST.COUNT.INFO}</macro>
+                    <value>70</value>
+                </macro>
+                <macro>
+                    <macro>{$DEHYDRATED.INST.COUNT.WARN}</macro>
+                    <value>100</value>
+                </macro>
+                <macro>
+                    <macro>{$FILE.LAST.MODIFIED.CRIT}</macro>
+                    <value>2200</value>
+                </macro>
+                <macro>
+                    <macro>{$FILE.LAST.MODIFIED.HIGH}</macro>
+                    <value>1800</value>
+                </macro>
+                <macro>
+                    <macro>{$FILE.LAST.MODIFIED.WARN}</macro>
+                    <value>900</value>
+                </macro>
+                <macro>
+                    <macro>{$LONGRUN.INST.COUNT.WARN}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$LONGRUN.INST.COUNT.WARN:&quot;&lt;instance&gt;&quot;}</macro>
+                    <value>5</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.CRIT}</macro>
+                    <value>1000</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.CRIT:&quot;&lt;instance&gt;&quot;}</macro>
+                    <value>100</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.HIGH}</macro>
+                    <value>100</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.HIGH:&quot;&lt;instance&gt;d&quot;}</macro>
+                    <value>70</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.INFO}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.COUNT.WARN}</macro>
+                    <value>50</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.INST.COUNT.CRIT}</macro>
+                    <value>1000</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.INST.COUNT.HIGH}</macro>
+                    <value>100</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.INST.COUNT.INFO}</macro>
+                    <value>20</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDED.INST.COUNT.WARN}</macro>
+                    <value>50</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDEDNR.INST.COUNT.CRIT}</macro>
+                    <value>500</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDEDNR.INST.COUNT.HIGH}</macro>
+                    <value>200</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDEDNR.INST.COUNT.INFO}</macro>
+                    <value>50</value>
+                </macro>
+                <macro>
+                    <macro>{$SUSPENDEDNR.INST.COUNT.WARN}</macro>
+                    <value>100</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
