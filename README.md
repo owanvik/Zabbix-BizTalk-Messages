@@ -3,15 +3,16 @@ Template for monitoring BizTalk Messages with scripts
 
 Installation:
 1. Create ```C:\ESB\Tools``` on the BizTalk Management server (or any server that can talk to the BizTalk environment)
+
 (This folder can be changed, but remember to update both the scripts output and the ```vfs.file.contents``` items in the template)
 
 Scheduled tasks:
 
-2. Create a scheduled task that runs 'powershell.exe -ExecutionPolicy Bypass "<path>\CountActiveMessages.ps1"' 
+2. Create a scheduled task that runs ```powershell.exe -ExecutionPolicy Bypass "<path>\CountActiveMessages.ps1"```
   
-3. Create a scheduled task that runs 'powershell.exe -ExecutionPolicy Bypass "<path>\CountInstanceStatuses.ps1"'
+3. Create a scheduled task that runs ```powershell.exe -ExecutionPolicy Bypass "<path>\CountInstanceStatuses.ps1"```
   
-4. Create a scheduled task that runs 'powershell.exe -ExecutionPolicy Bypass "<path>\CountSuspendedMessages.ps1"'
+4. Create a scheduled task that runs ```powershell.exe -ExecutionPolicy Bypass "<path>\CountSuspendedMessages.ps1"```
   
 Schedule the tasks to run at some point each day, and every 5 minutes for a duration of 1 day.
 All the tasks must be run with a user that have read access to the BizTalk environment
@@ -23,8 +24,8 @@ All the tasks must be run with a user that have read access to the BizTalk envir
 Some of the macros are "User macro with context" which you can read about here:
 https://www.zabbix.com/documentation/current/en/manual/config/macros/user_macros_context
 
-Example: {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} This will override the default {$ACTIVE.INST.COUNT.CRIT} macro for "MyBT.ServiceType". 
-To use this you create a new macro like {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} and replace "ServiceType" with the ServiceType of the application you want to override.
+Example: ```{$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"}``` This will override the default ```{$ACTIVE.INST.COUNT.CRIT}``` macro for ```"MyBT.ServiceType"```. 
+To use this you create a new macro like ```{$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"}``` and replace ```ServiceType``` with the ServiceType of the application you want to override.
   
 You can find the service type in the name of the item in Zabbix, or by running this script in powershell:
 ```powershell
