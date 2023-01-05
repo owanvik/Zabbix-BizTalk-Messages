@@ -24,6 +24,7 @@ https://www.zabbix.com/documentation/current/en/manual/config/macros/user_macros
 
 Example: {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} This will override the default {$ACTIVE.INST.COUNT.CRIT} macro for "MyBT.ServiceType". 
 To use this you create a new macro like {$ACTIVE.INST.COUNT.CRIT:"MyBT.ServiceType"} and replace "ServiceType" with the ServiceType of the application you want to override.
+  
 You can find the service type in the name of the item in Zabbix, or by running this script in powershell:
 ```powershell
 $mgmtDbServer = get-wmiobject MSBTS_GroupSetting -namespace root\MicrosoftBizTalkServer | select-object -expand MgmtDbServerName
