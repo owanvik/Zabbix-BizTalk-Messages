@@ -17,7 +17,7 @@ Scheduled tasks:
 Schedule the tasks to run at some point each day, and every 5 minutes for a duration of 1 day.
 All the tasks must be run with a user that have read access to the BizTalk environment
 
-5. Import the Zabbix Template to Zabbix
+5. Import the ```zbx_BizTalk_Messages.yaml``` Template to Zabbix
 6. Add the template to the host running the scripts
   
   
