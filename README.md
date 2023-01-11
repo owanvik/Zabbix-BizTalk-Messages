@@ -1,3 +1,4 @@
+
 # Zabbix-BizTalk-Messages
 Template for monitoring BizTalk Messages with scripts
 
@@ -42,3 +43,5 @@ New-Object -TypeName PSObject -Property $Properties
 $output
   ```
   
+<meta name="keywords" content="Zabbix,BizTalk,BizTalk Messages,Zabbix Template">
+<meta name="description" content="Template for monitoring BizTalk Messages with scripts.">
